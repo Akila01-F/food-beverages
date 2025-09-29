@@ -1,0 +1,119 @@
+# Laravel Framework
+*.log
+.env
+.env.backup
+.env.production
+.env.local
+.env.development
+.env.testing
+/vendor
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/bootstrap/cache/*
+!/bootstrap/cache/.gitkeep
+/auth.json
+
+# Built assets (will be built on Azure)
+/public/build
+
+# Laravel specific
+.phpunit.result.cache
+/.phpunit.cache
+/storage/app/public/*
+!/storage/app/public/.gitkeep
+/storage/framework/cache/*
+!/storage/framework/cache/.gitkeep
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
+/storage/framework/views/*
+!/storage/framework/views/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# IDEs and Editors
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.zed
+.phpactor.json
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Operating System
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Development Tools
+Homestead.json
+Homestead.yaml
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+*.sql
+
+# PHP
+/tests/_output/*
+/tests/_support/_generated
+composer.phar
+php_errors.log
+
+# Coverage reports
+/coverage
+/coverage.xml
+/.phpunit.cache
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# Application specific
+/public/uploads/*
+!/public/uploads/.gitkeep
+/public/images/products/*
+!/public/images/products/.gitkeep
+/public/images/categories/*
+!/public/images/categories/.gitkeep
+
+# Cache and temporary files
+*.cache
+.cache
+temp/
+tmp/
+
+# Azure deployment specific
+# Keep these files for deployment
+!.deployment
+!deploy.sh
+!public/web.config
+
+# Exclude Azure local settings if any
+.azure/
+azure.err
+azure.out
+
+# Keep composer.lock for consistent dependencies
+!composer.lock
+
+# Production configuration templates (keep for reference)
+.env.azure
+.env.production.example
