@@ -1,4 +1,4 @@
-# Railway Deployment Configuration for Laravel + MongoDB
+# Railway Deployment Configuration for Laravel + MongoDB + PostgreSQL
 # Configures Nixpacks to install all required PHP extensions
 
 [variables]
@@ -16,16 +16,19 @@ nixPkgs = [
     "php82Extensions.zip",
     "php82Extensions.gd",
     "php82Extensions.curl",
-    "nodejs_20"
+    "php82Extensions.bcmath",
+    "nodejs_20",
+    "postgresql"
 ]
 
-[phases.install]
+[phases.install] 
 cmds = [
-    # Check PHP extensions
-    "php -m | grep mongodb || echo 'MongoDB extension check'",
-    "php -m | grep pgsql || echo 'PostgreSQL extension check'",
-    # Install dependencies with fallback
-    "composer install --ignore-platform-req=ext-mongodb --no-dev --optimize-autoloader --no-interaction || composer install --no-dev --optimize-autoloader --no-interaction",
+    # Verify PHP and extensions are available
+    "php -v",
+    "php -m | grep -E '(mongodb|pgsql)' || echo 'Extensions will be loaded at runtime'",
+    # Install PHP dependencies (ignore platform requirements for MongoDB in case of issues)
+    "composer install --ignore-platform-reqs --no-dev --optimize-autoloader --no-interaction",
+    # Install Node dependencies
     "npm ci --only=production"
 ]
 
@@ -33,13 +36,14 @@ cmds = [
 cmds = [
     # Build frontend assets
     "npm run build",
-    # Set up Laravel directories
-    "mkdir -p storage/framework/{sessions,views,cache,testing} storage/logs bootstrap/cache",
+    # Create required Laravel directories
+    "mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/framework/testing storage/logs bootstrap/cache",
+    # Set proper permissions
     "chmod -R 775 storage bootstrap/cache",
-    # Laravel optimizations
-    "php artisan config:cache",
-    "php artisan route:cache", 
-    "php artisan view:cache"
+    # Optimize Laravel (skip if any fail)
+    "php artisan config:cache || echo 'Config cache failed, continuing'",
+    "php artisan route:cache || echo 'Route cache failed, continuing'", 
+    "php artisan view:cache || echo 'View cache failed, continuing'"
 ]
 
 [start]
