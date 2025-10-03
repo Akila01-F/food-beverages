@@ -1,0 +1,46 @@
+# Railway Deployment Configuration for Laravel + MongoDB
+# Configures Nixpacks to install all required PHP extensions
+
+[variables]
+NODE_VERSION = "20"
+PHP_VERSION = "8.2"
+
+[phases.setup]
+nixPkgs = [
+    "php82", 
+    "php82Extensions.mongodb",
+    "php82Extensions.pdo_pgsql",
+    "php82Extensions.pgsql", 
+    "php82Extensions.mbstring",
+    "php82Extensions.xml",
+    "php82Extensions.zip",
+    "php82Extensions.gd",
+    "php82Extensions.curl",
+    "nodejs_20"
+]
+
+[phases.install]
+cmds = [
+    # Check PHP extensions
+    "php -m | grep mongodb || echo 'MongoDB extension check'",
+    "php -m | grep pgsql || echo 'PostgreSQL extension check'",
+    # Install dependencies with fallback
+    "composer install --ignore-platform-req=ext-mongodb --no-dev --optimize-autoloader --no-interaction || composer install --no-dev --optimize-autoloader --no-interaction",
+    "npm ci --only=production"
+]
+
+[phases.build]
+cmds = [
+    # Build frontend assets
+    "npm run build",
+    # Set up Laravel directories
+    "mkdir -p storage/framework/{sessions,views,cache,testing} storage/logs bootstrap/cache",
+    "chmod -R 775 storage bootstrap/cache",
+    # Laravel optimizations
+    "php artisan config:cache",
+    "php artisan route:cache", 
+    "php artisan view:cache"
+]
+
+[start]
+cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
