@@ -8,6 +8,7 @@ PHP_VERSION = "8.2"
 [phases.setup]
 nixPkgs = [
     "php82", 
+    "php82Packages.composer",
     "php82Extensions.mongodb",
     "php82Extensions.pdo_pgsql",
     "php82Extensions.pgsql", 
