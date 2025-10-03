@@ -29,8 +29,8 @@ cmds = [
     "php -m | grep -E '(mongodb|pgsql)' || echo 'Extensions will be loaded at runtime'",
     # Install PHP dependencies (ignore platform requirements for MongoDB in case of issues)
     "composer install --ignore-platform-reqs --no-dev --optimize-autoloader --no-interaction",
-    # Install Node dependencies
-    "npm ci --only=production"
+    # Install Node dependencies (including dev dependencies needed for build)
+    "npm ci"
 ]
 
 [phases.build]
