@@ -16,6 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
         
+        // Configure CORS for API routes
+        $middleware->api(prepend: [
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        ]);
+        
         // Configure auth middleware redirect
         $middleware->redirectUsersTo('/login');
         $middleware->redirectGuestsTo('/login');
